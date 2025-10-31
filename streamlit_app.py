@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
@@ -23,7 +25,7 @@ st.caption("B.Tech CSE | Maharaja Surajmal Institute of Technology (MSIT)")
 st.markdown("---")
 
 st.write("### 🔍 Predict monthly house rent using ML models — Linear Regression & Random Forest Regressor.")
-st.info("💡 *Trained on real housing data with both linear and nonlinear learning techniques.*")
+st.info("💡 *Trained on real housing data using both linear and ensemble learning techniques.*")
 
 # ------------------------------------------------------------
 # LOAD DATA
@@ -41,11 +43,25 @@ except FileNotFoundError:
     st.error("❌ Dataset 'house_rent_data.csv' not found. Please upload it to the app folder before running.")
     st.stop()
 
+with st.expander("📂 View Dataset Overview"):
+    st.dataframe(df.head(10))
+    st.write("### Column Summary")
+    col_summary = pd.DataFrame({
+        "Column Name": df.columns,
+        "Data Type": df.dtypes.astype(str),
+        "Unique Values": [df[c].nunique() for c in df.columns]
+    })
+    st.dataframe(col_summary)
+
 # ------------------------------------------------------------
 # TRAIN MODELS
 # ------------------------------------------------------------
 @st.cache_resource
 def train_models(df):
+    if "Rent" not in df.columns:
+        st.error("❌ The dataset must contain a 'Rent' column as the target variable.")
+        st.stop()
+
     X = df.drop(columns="Rent")
     y = df["Rent"]
 
@@ -59,7 +75,7 @@ def train_models(df):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # --- Linear Regression Model ---
+    # Linear Regression Model
     lr_model = Pipeline([
         ("preprocessor", preprocessor),
         ("regressor", LinearRegression())
@@ -67,7 +83,7 @@ def train_models(df):
     lr_model.fit(X_train, y_train)
     y_pred_lr = lr_model.predict(X_test)
 
-    # --- Random Forest Model ---
+    # Random Forest Model
     rf_model = Pipeline([
         ("preprocessor", preprocessor),
         ("regressor", RandomForestRegressor(
@@ -80,19 +96,21 @@ def train_models(df):
     rf_model.fit(X_train, y_train)
     y_pred_rf = rf_model.predict(X_test)
 
-    def rmse(y_true, y_pred):
-        return np.sqrt(mean_squared_error(y_true, y_pred))
+    rmse = lambda y_true, y_pred: np.sqrt(mean_squared_error(y_true, y_pred))
 
     metrics = {
         "Linear Regression": {"R²": r2_score(y_test, y_pred_lr), "RMSE": rmse(y_test, y_pred_lr)},
         "Random Forest": {"R²": r2_score(y_test, y_pred_rf), "RMSE": rmse(y_test, y_pred_rf)}
     }
 
-    return lr_model, rf_model, metrics, cat_cols, num_cols
+    return lr_model, rf_model, metrics, cat_cols, num_cols, X_train, y_train
 
 
-with st.spinner("⏳ Training models... Please wait (optimized for large datasets"):
-    lr_model, rf_model, metrics, cat_cols, num_cols = train_models(df)
+with st.spinner("⏳ Training models... Please wait (optimized for large datasets)..."):
+    lr_model, rf_model, metrics, cat_cols, num_cols, X_train, y_train = train_models(df)
+
+st.success("✅ Models trained successfully!")
+st.markdown(f"**📈 Random Forest (R² = {metrics['Random Forest']['R²']:.3f}) | Linear Regression (R² = {metrics['Linear Regression']['R²']:.3f})**")
 
 # ------------------------------------------------------------
 # SIDEBAR - Model Metrics
@@ -104,7 +122,7 @@ st.sidebar.markdown("---")
 st.sidebar.write("**Project:** House Rent Predictor  \n**Author:** Harshit Saxena  \n**Institute:** MSIT, CSE Dept.")
 
 # ------------------------------------------------------------
-# TABS FOR USER EXPERIENCE
+# TABS
 # ------------------------------------------------------------
 tab1, tab2 = st.tabs(["🏘️ Predict Rent", "📈 Model Insights"])
 
@@ -149,31 +167,40 @@ with tab1:
         with st.expander("📋 View Input Summary"):
             st.write(input_df.T)
 
-        st.write(f"📈 Model Used: **{model_choice}** — R²: {metrics[model_choice]['R²']:.3f}, RMSE: {metrics[model_choice]['RMSE']:.2f}")
+        st.info(f"📈 Model Used: **{model_choice}** — R²: {metrics[model_choice]['R²']:.3f}, RMSE: {metrics[model_choice]['RMSE']:.2f}")
 
 # ------------------------------------------------------------
 # TAB 2: MODEL INSIGHTS
 # ------------------------------------------------------------
 with tab2:
     st.subheader("📊 Model Comparison")
-    st.write("### Performance Metrics")
     st.dataframe(pd.DataFrame(metrics).T.style.format({"R²": "{:.3f}", "RMSE": "{:.2f}"}))
 
     st.markdown("---")
-    st.write("### Dataset Overview")
-    st.dataframe(df.head(10))
+    st.subheader("📈 Correlation Heatmap")
+    numeric_cols = df.select_dtypes(include=["int64", "float64"]).columns
+    if len(numeric_cols) > 1:
+        fig, ax = plt.subplots()
+        sns.heatmap(df[numeric_cols].corr(), annot=True, cmap="YlGnBu", ax=ax)
+        st.pyplot(fig)
+    else:
+        st.info("Not enough numeric columns to display correlation heatmap.")
 
-    st.write("### Column Types")
-    col_summary = pd.DataFrame({
-        "Column Name": df.columns,
-        "Data Type": df.dtypes.astype(str),
-        "Unique Values": [df[c].nunique() for c in df.columns]
-    })
-    st.dataframe(col_summary)
+    st.markdown("---")
+    st.subheader("🌲 Random Forest Feature Importance")
+    rf_reg = rf_model.named_steps["regressor"]
+    if hasattr(rf_reg, "feature_importances_"):
+        ohe = rf_model.named_steps["preprocessor"].named_transformers_["categorical"]
+        cat_features = ohe.get_feature_names_out(cat_cols)
+        all_features = np.concatenate([cat_features, num_cols])
+        importances = pd.Series(rf_reg.feature_importances_, index=all_features).sort_values(ascending=False)[:10]
+        st.bar_chart(importances)
+    else:
+        st.info("Feature importance unavailable for this model.")
 
 # ------------------------------------------------------------
 # FOOTER
 # ------------------------------------------------------------
 st.markdown("---")
 st.caption("Developed with ❤️ by **Harshit Saxena (B.Tech CSE, MSIT)**")
-st.caption("This app demonstrates an optimized and stable ML deployment using both simple and ensemble models.")
+st.caption("Optimized ML web app using Streamlit, Scikit-learn & Random Forest Regression.")
