@@ -1,71 +1,78 @@
-
 ![House Rent Prediction](banner.png)
 
 # 🏠 House Rent Prediction
 
-A Data Science project to predict **house rental prices** based on multiple features such as size, city, furnishing status, and more. This project involves **data preprocessing**, **exploratory data analysis (EDA)**, and **model building** using **Linear Regression** and **Random Forest Regressor** in Python.
+A **Data Science project** to predict **house rental prices** based on multiple features such as size, city, furnishing status, and more.  
+This project covers **data preprocessing**, **exploratory data analysis (EDA)**, and **model building** using **Linear Regression** and **Random Forest Regressor** in Python.
+
+---
+
+## 🟢 Live Demo
+
+🔗 **Try it Live:** [Streamlit App](https://house-rent-prediction-buus2jxuslag6sm6gpfziq.streamlit.app/)  
+📓 **Open in Google Colab:** [Run Notebook](https://colab.research.google.com/drive/15aoRSXB3AYjiAltyMKnInEmvF6sRA2OX#scrollTo=6b8d58a8)
 
 ---
 
 ## 📌 Project Objectives
 
-- Predict rent prices based on various property features
-- Perform exploratory analysis to uncover insights from the dataset
-- Train and compare different regression models
-- Evaluate model performance using R² Score and RMSE
+- Predict rent prices based on various property features  
+- Perform exploratory analysis to uncover insights from the dataset  
+- Train and compare different regression models  
+- Evaluate model performance using **R² Score** and **RMSE**
 
 ---
 
 ## 🔧 Tech Stack
 
-- **Language**: Python
+- **Language**: Python  
 - **Libraries**:
-  - Pandas
-  - NumPy
-  - Matplotlib
-  - Seaborn
-  - Scikit-learn
+  - Pandas  
+  - NumPy  
+  - Matplotlib  
+  - Seaborn  
+  - Scikit-learn  
 
 ---
 
 ## 📊 Workflow Summary
 
 1. **Data Preprocessing**  
-   - Handling null values  
+   - Handling missing/null values  
    - Converting data types  
-   - Encoding categorical variables
+   - Encoding categorical variables  
 
-2. **EDA (Exploratory Data Analysis)**  
+2. **Exploratory Data Analysis (EDA)**  
    - Distribution plots  
    - Box plots & outlier detection  
-   - Correlation heatmaps
+   - Correlation heatmaps  
 
 3. **Model Training & Evaluation**  
    - Linear Regression  
    - Random Forest Regressor  
-   - R² Score, RMSE
+   - Performance Metrics: R² Score, RMSE  
 
 ---
 
 ## 📁 Dataset
 
-- `house_rent_data.csv`  
-  The dataset contains features like:
-  - Size (in BHK)
-  - Rent (target)
-  - Area Type
-  - City
-  - Furnishing Status
-  - Tenant Type
-  - Bathroom Count
+**File:** `house_rent_data.csv`  
+Contains the following key features:
+- Size (in BHK)  
+- Rent (Target Variable)  
+- Area Type  
+- City  
+- Furnishing Status  
+- Tenant Type  
+- Bathroom Count  
 
 ---
 
 ## ✅ Results
 
-- Built and evaluated models using R² Score and RMSE
-- Random Forest showed improved performance over basic Linear Regression
-- Derived insights on rental trends based on city and furnishing status
+- Built and evaluated predictive models using **R² Score** and **RMSE**  
+- **Random Forest** outperformed **Linear Regression** with higher accuracy  
+- Extracted valuable insights on rental patterns by **city** and **furnishing status**  
 
 ---
 
@@ -73,13 +80,15 @@ A Data Science project to predict **house rental prices** based on multiple feat
 
 **Harshit Saxena**  
 B.Tech CSE | Maharaja Surajmal Institute of Technology, Delhi  
-- 📧 harshitsaxenavs@gmail.com  
-- 🌐 [LinkedIn](https://www.linkedin.com/in/harshit-saxena-vs/)  
-- 💻 [GitHub](https://github.com/harshitsaxenavs)
+
+📧 [harshitsaxenavs@gmail.com](mailto:harshitsaxenavs@gmail.com)  
+🌐 [LinkedIn](https://www.linkedin.com/in/harshit-saxena-vs/)  
+💻 [GitHub](https://github.com/harshitsaxenavs)
 
 ---
 
-## ❗ License
+## ⚠️ License
 
-This project is **not open-source**. All rights are reserved by the author.  
-Unauthorized copying, modification, or distribution is strictly prohibited.
+This project is **not open-source**.  
+All rights are reserved by the author.  
+Unauthorized copying, modification, or distribution is **strictly prohibited**.
