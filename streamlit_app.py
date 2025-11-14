@@ -119,22 +119,7 @@ st.markdown("---")
 # Model Choice
 model_choice = st.selectbox("Select Prediction Model", ["Random Forest", "Linear Regression"])
 
-# Custom CSS to style the Predict Rent button
-st.markdown("""
-    <style>
-    div.stButton > button:first-child {
-        width: 150px;      /* button width */
-        height: 40px;      /* button height */
-        font-size: 28px;   /* text size */
-        margin: 0 auto;    /* centers the button */
-        display: block;
-        border-radius: 24px;  /* rounded corners */
-        background-color: grey;  /* green button */
-        color: white;
-    }
-    
-    </style>
-""", unsafe_allow_html=True)
+
 
 predict_btn = st.button("💰 Predict Rent")
 
