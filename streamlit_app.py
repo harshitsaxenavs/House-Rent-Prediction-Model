@@ -13,9 +13,8 @@ from sklearn.pipeline import Pipeline
 # PAGE CONFIGURATION
 # ------------------------------------------------------------
 st.set_page_config(
-    page_title="🏠 House Rent Predictor by Harshit Saxena",
+    page_title="House Rent Predictor by Harshit Saxena",
     layout="centered",
-    
 )
 
 st.title("🏠 House Rent Prediction")
@@ -91,7 +90,7 @@ with st.spinner("⏳ Training models..."):
 # ------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------
-st.sidebar.header("📊 Model Performance ")
+st.sidebar.header(" Model Performance ")
 st.sidebar.write(f"**Random Forest** — R²: {metrics['Random Forest']['R²']:.3f}, RMSE: {metrics['Random Forest']['RMSE']:.2f}")
 st.sidebar.write(f"**Linear Regression** — R²: {metrics['Linear Regression']['R²']:.3f}, RMSE: {metrics['Linear Regression']['RMSE']:.2f}")
 st.sidebar.markdown("---")
@@ -100,7 +99,7 @@ st.sidebar.write("**Project:** House Rent Predictor  \n**Author:** Harshit Saxen
 # ------------------------------------------------------------
 # USER INPUT SECTION
 # ------------------------------------------------------------
-st.header("🏘️ Enter Property Details")
+st.header(" Enter Property Details")
 
 col1, col2 = st.columns(2)
 
@@ -118,6 +117,7 @@ st.markdown("---")
 
 # Model Choice
 model_choice = st.selectbox("Select Prediction Model", ["Random Forest", "Linear Regression"])
+
 # Custom CSS to style the Predict Rent button
 st.markdown("""
     <style>
@@ -156,20 +156,20 @@ if predict_btn:
     predicted_rent = model.predict(input_df)[0]
 
     st.success(f"💰 **Predicted Monthly Rent: ₹ {predicted_rent:,.0f}**")
-
     st.write(f"Model Performance — **R²:** {metrics[model_choice]['R²']:.3f}, **RMSE:** {metrics[model_choice]['RMSE']:.2f}")
 
-   with st.expander("📄 View Input Summary"):
-    # Convert the DataFrame to HTML and center it
-    html_table = input_df.T.to_html(border=0)  # no border
-    st.markdown(
-        f"<div style='text-align: center;'>{html_table}</div>",
-        unsafe_allow_html=True
-    )
-
+    # ------------------- EXPANDER -------------------
+    with st.expander("📄 View Input Summary"):
+        # Convert DataFrame to HTML and center it
+        html_table = input_df.T.to_html(border=0)  # no border
+        st.markdown(
+            f"<div style='text-align: center;'>{html_table}</div>",
+            unsafe_allow_html=True
+        )
 
 # ------------------------------------------------------------
 # FOOTER
 # ------------------------------------------------------------
 st.markdown("---")
 st.caption("Developed with ❤️ by **Harshit Saxena (B.Tech CSE, MSIT)**")
+
