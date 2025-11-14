@@ -21,7 +21,8 @@ st.title("🏠 House Rent Prediction")
 st.caption("B.Tech CSE | Maharaja Surajmal Institute of Technology (MSIT)")
 st.markdown("---")
 
-st.write("### Predict monthly house rent using ML models — Linear Regression & Random Forest Regressor.")
+st.write("### Predict monthly house rent using ML models —")
+st.write("### Linear Regression & Random Forest Regressor.")
 st.info("💡Trained on real housing data with both linear and nonlinear learning techniques.")
 
 # ------------------------------------------------------------
@@ -122,18 +123,16 @@ model_choice = st.selectbox("Select Prediction Model", ["Random Forest", "Linear
 st.markdown("""
     <style>
     div.stButton > button:first-child {
-        width: 300px;      /* button width */
-        height: 80px;      /* button height */
+        width: 150px;      /* button width */
+        height: 40px;      /* button height */
         font-size: 28px;   /* text size */
         margin: 0 auto;    /* centers the button */
         display: block;
-        border-radius: 12px;  /* rounded corners */
-        background-color: #4CAF50;  /* green button */
+        border-radius: 24px;  /* rounded corners */
+        background-color: grey;  /* green button */
         color: white;
     }
-    div.stButton > button:first-child:hover {
-        background-color: #45a049;  /* hover effect */
-    }
+    
     </style>
 """, unsafe_allow_html=True)
 
