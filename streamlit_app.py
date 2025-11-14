@@ -15,15 +15,15 @@ from sklearn.pipeline import Pipeline
 st.set_page_config(
     page_title="🏠 House Rent Predictor by Harshit Saxena",
     layout="centered",
-    page_icon="🏘️"
+    
 )
 
-st.title("🏠 House Rent Predictor by Harshit Saxena")
+st.title("🏠 House Rent Prediction")
 st.caption("B.Tech CSE | Maharaja Surajmal Institute of Technology (MSIT)")
 st.markdown("---")
 
-st.write("### 🔍 Predict monthly house rent using ML models — Linear Regression & Random Forest Regressor.")
-st.info("💡 *Trained on real housing data with both linear and nonlinear learning techniques.*")
+st.write("### Predict monthly house rent using ML models — Linear Regression & Random Forest Regressor.")
+st.info("💡Trained on real housing data with both linear and nonlinear learning techniques.")
 
 # ------------------------------------------------------------
 # LOAD DATA
@@ -69,7 +69,7 @@ def build_and_train(df):
 
     # Random Forest
     rf_model = Pipeline(steps=[("preprocessor", preproc),
-                               ("regressor", RandomForestRegressor(n_estimators=150,
+                               ("regressor", RandomForestRegressor(n_estimators=200,
                                                                     random_state=42,
                                                                     n_jobs=-1))])
     rf_model.fit(X_train, y_train)
@@ -91,7 +91,7 @@ with st.spinner("⏳ Training models..."):
 # ------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------
-st.sidebar.header("📊 Model Performance (Test Set)")
+st.sidebar.header("📊 Model Performance ")
 st.sidebar.write(f"**Random Forest** — R²: {metrics['Random Forest']['R²']:.3f}, RMSE: {metrics['Random Forest']['RMSE']:.2f}")
 st.sidebar.write(f"**Linear Regression** — R²: {metrics['Linear Regression']['R²']:.3f}, RMSE: {metrics['Linear Regression']['RMSE']:.2f}")
 st.sidebar.markdown("---")
@@ -118,6 +118,25 @@ st.markdown("---")
 
 # Model Choice
 model_choice = st.selectbox("Select Prediction Model", ["Random Forest", "Linear Regression"])
+# Custom CSS to style the Predict Rent button
+st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        width: 300px;      /* button width */
+        height: 80px;      /* button height */
+        font-size: 28px;   /* text size */
+        margin: 0 auto;    /* centers the button */
+        display: block;
+        border-radius: 12px;  /* rounded corners */
+        background-color: #4CAF50;  /* green button */
+        color: white;
+    }
+    div.stButton > button:first-child:hover {
+        background-color: #45a049;  /* hover effect */
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 predict_btn = st.button("💰 Predict Rent")
 
 # ------------------------------------------------------------
@@ -140,12 +159,17 @@ if predict_btn:
 
     st.write(f"Model Performance — **R²:** {metrics[model_choice]['R²']:.3f}, **RMSE:** {metrics[model_choice]['RMSE']:.2f}")
 
-    with st.expander("📄 View Input Summary"):
-        st.write(input_df.T)
+   with st.expander("📄 View Input Summary"):
+    # Convert the DataFrame to HTML and center it
+    html_table = input_df.T.to_html(border=0)  # no border
+    st.markdown(
+        f"<div style='text-align: center;'>{html_table}</div>",
+        unsafe_allow_html=True
+    )
+
 
 # ------------------------------------------------------------
 # FOOTER
 # ------------------------------------------------------------
 st.markdown("---")
 st.caption("Developed with ❤️ by **Harshit Saxena (B.Tech CSE, MSIT)**")
-st.caption("This app demonstrates machine learning regression using both simple and ensemble models.")
