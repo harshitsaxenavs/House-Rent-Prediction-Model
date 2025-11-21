@@ -1,4 +1,4 @@
-![House Rent Prediction](banner.png)
+![House Rent Prediction Model](banner.png)
 
 # 🏠 House Rent Prediction
 
