@@ -1,6 +1,7 @@
 ![House Rent Prediction Model](banner.png)
 
-# 🏠 House Rent Prediction
+# 🏠 House Rent Prediction Model
+
 
 A **Data Science project** to predict **house rental prices** based on multiple features such as size, city, furnishing status, and more.  
 This project covers **data preprocessing**, **exploratory data analysis (EDA)**, and **model building** using **Linear Regression** and **Random Forest Regressor** in Python.
